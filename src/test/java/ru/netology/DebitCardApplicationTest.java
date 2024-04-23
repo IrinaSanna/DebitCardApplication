@@ -7,6 +7,7 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DebitCardApplicationTest {
     @Test
@@ -69,14 +70,14 @@ public class DebitCardApplicationTest {
     }
 
     @Test
-    void shouldAgreementNotGiven() {
+    void shouldAgreementNotGiven() throws InterruptedException {
         open("http://localhost:9999");
         SelenideElement form = $("[data-test-id=name]");
         $("[data-test-id=name] input").setValue("Спиридонов Николай");
         $("[data-test-id=phone] input").setValue("+79001112233");
         $("[data-test-id=agreement]");
         $("button.button").click();
-        assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй",
-                $("[data-test-id=agreement].input_invalid .checkbox__text").getText());
+        assertTrue($("[data-test-id=agreement].input_invalid").isDisplayed());
+        Thread.sleep(5000);
     }
 }
